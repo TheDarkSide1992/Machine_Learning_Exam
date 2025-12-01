@@ -1,0 +1,5 @@
+.cache
+__pycache__
+.venv
+/exam_agent/config.py
+.idea
