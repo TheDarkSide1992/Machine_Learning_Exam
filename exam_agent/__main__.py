@@ -1,8 +1,12 @@
 from exam_agent.console_ui import COLLORS, get_args
 from exam_agent.agents import start
 
-def main(prompt:str=None, continuous_chat:bool=False, generate_recipe:bool=False):
+def main(prompt:str=None, continuous_chat:bool=False, generate_recipe:bool=False, defaults_prompts:bool=False):
     print("Starting up.....")
+
+    if defaults_prompts:
+        #TODO Use default already written prompts
+        return
 
     if(prompt == None  and continuous_chat==False):
         print(f"{COLLORS.WARNING} You need to select a type of input.")
@@ -37,6 +41,7 @@ if __name__ == "__main__":
     prompt = None
     cc = False
     gr = False
+    dp = False
 
     if args.prompt is not None:
         prompt = args.prompt
@@ -44,5 +49,7 @@ if __name__ == "__main__":
         gr = args.generate_recipe
     if args.continuous_chat:
         cc = args.continuous_chat
+    if args.defaults_prompts:
+        dp = args.defaults_prompts
 
-    main(prompt=prompt, continuous_chat=cc, generate_recipe=gr)
+    main(prompt=prompt, continuous_chat=cc, generate_recipe=gr, defaults_prompts=dp)
