@@ -45,9 +45,9 @@ INTERNAL_CRITIQUE_PROMPT = (
     You only ever see the USER_REQUEST and the cooking_agent's messages.
 
     Evaluation criteria:
-    - Completeness: Does the resulting recipe forfill the users request, is the resulting recipe described to completeness, meaning there are no missing gaps 
+    - Completeness: Does the resulting recipe fulfill the users request, is the resulting recipe described to completeness, meaning there are no missing gaps 
     - Quality: Are the details concrete and verifiable, the recipe does not contain any unhealthy or otherwise dangerous ingredients
-    - healthiness: Does the agent handle ambiguous topics or infeasible constraints sensibly, and contain mostly healthy and neutrinos ingredients.
+    - healthiness: Does the agent handle ambiguous topics or infeasible constraints sensibly, and contain mostly healthy and nutritious ingredients.
 
     Rules:
     - If the latest message from cooking_agent starts with 'DRAFT:' and the answer is acceptable, respond with:

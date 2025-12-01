@@ -69,6 +69,7 @@ def run_with_internal_critic(user_request: str) -> Dict:
     internal_critic = create_internal_critic_agent()
     manager = make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent)
 
+
     init_message = f"""USER_REQUEST: '{user_request}'
                         Workflow for agents:
                         planner_agent: Produce a concise numbered plan for which agents need to do what.
@@ -79,7 +80,8 @@ def run_with_internal_critic(user_request: str) -> Dict:
                         internal_critic: On a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
                         cooking_agent: if you get CRITIQUE, revise and send a new 'DRAFT:'.
                         When internal_critic is satisfied, cooking_agent sends 
-                        TERMINATE after getting a message 'OK:'.
+                        'FINAL_ANSWER: ...' and also includes 'TERMINATE' in the same message.
+                        
                         Return final answer as 'FINAL_ANSWER: [Answer]' include 'TERMINATE' in the same message, when done.
                         The human will only see the FINAL_ANSWER."""
 
