@@ -45,9 +45,9 @@ def create_user_proxy(name:str = "user_proxy") -> UserProxyAgent:
 
     return agent
 
-def make_groupchat(user_proxy, internal_critic, Cooking_agent) -> GroupChatManager:
+def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
     group = GroupChat(
-        agents=[user_proxy, Cooking_agent, internal_critic],
+        agents=[user_proxy, cooking_agent, internal_critic],
         messages=[],
         max_round=20,
         speaker_selection_method="auto",
@@ -56,9 +56,9 @@ def make_groupchat(user_proxy, internal_critic, Cooking_agent) -> GroupChatManag
 
 def run_with_internal_critic(user_request: str) -> Dict:
     user_proxy = create_user_proxy()
-    Cooking_agent = create_cooking_agent()
+    cooking_agent = create_cooking_agent()
     internal_critic = create_internal_critic_agent()
-    manager = make_groupchat(user_proxy, internal_critic, Cooking_agent)
+    manager = make_groupchat(user_proxy, internal_critic, cooking_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         Workflow for agents:
