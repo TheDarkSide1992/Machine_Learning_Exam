@@ -95,7 +95,7 @@ def run_with_internal_critic(user_request: str) -> Dict:
 
 def build_judge_prompt(user_prompt: str, final_answer: str) -> str:
     return (
-        f"""You are evaluating a research-paper-finding answer.\n
+        f"""You are evaluating a recipe answer.\n
         User prompt:\n"
         \"\"\"{user_prompt}\"\"\"\n"
         Final answer from the agent (after internal critic and GroupChat):\n

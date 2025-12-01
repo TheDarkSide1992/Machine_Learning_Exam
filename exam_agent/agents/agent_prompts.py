@@ -45,8 +45,8 @@ INTERNAL_CRITIQUE_PROMPT = (
     You only ever see the USER_REQUEST and the cooking_agent's messages.
 
     Evaluation criteria:
-    - completeness: finds at least one paper matching the topic, the date constraint (in/before/after year), and the requested citation count, if specified; clearly notes if exact count is not attainable
-    - quality: accurate metadata (title, authors, institute, year) and citation count
+    - Completeness: Does the resulting recipe forfill the users request, is the resulting recipe described to completeness, meaning there are no missing gaps 
+    - Quality: Are the details concrete and verifiable, the recipe does not contain any unhealthy or otherwise dangerous ingredients
     - healthiness: Does the agent handle ambiguous topics or infeasible constraints sensibly, and contain mostly healthy and neutrinos ingredients.
 
     Rules:
