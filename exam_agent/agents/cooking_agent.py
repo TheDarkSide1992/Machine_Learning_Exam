@@ -5,8 +5,8 @@ from typing import Dict
 from autogen import UserProxyAgent, AssistantAgent, GroupChatManager, GroupChat, ConversableAgent
 
 from exam_agent.config import LLM_CONFIG as CONFIG
-from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
-_config = CONFIG["config_list"][1]
+from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT, PLANNER_PROMPT
+_config = CONFIG["config_list"][0]
 
 def create_cooking_agent(name:str = "cooking_agent", prompt:str = COOKING_PROMPT) -> ConversableAgent:
     agent =  ConversableAgent(
@@ -36,6 +36,14 @@ def create_judge_agent(name:str = "judge_agent", prompt:str = JUDGE_PROMPT) -> A
 
     return agent
 
+def create_planner_agent(name:str = "planner_agent", prompt:str = PLANNER_PROMPT) -> AssistantAgent:
+    planner = AssistantAgent(
+        name=f"{name}",
+        llm_config=_config,
+        system_message=prompt,
+    )
+    return planner
+
 def create_user_proxy(name:str = "user_proxy") -> UserProxyAgent:
     agent = UserProxyAgent(
         name=f"{name}",
@@ -45,28 +53,30 @@ def create_user_proxy(name:str = "user_proxy") -> UserProxyAgent:
 
     return agent
 
-def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
+def make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
     group = GroupChat(
-        agents=[user_proxy, cooking_agent, internal_critic],
+        agents=[planner_agent, cooking_agent, internal_critic, user_proxy],
         messages=[],
-        max_round=20,
+        max_round=30,
         speaker_selection_method="auto",
     )
-    return GroupChatManager(groupchat=group, llm_config=None)
+    return GroupChatManager(groupchat=group, llm_config=_config)
 
 def run_with_internal_critic(user_request: str) -> Dict:
+    planner_agent = create_planner_agent()
     user_proxy = create_user_proxy()
     cooking_agent = create_cooking_agent()
     internal_critic = create_internal_critic_agent()
-    manager = make_groupchat(user_proxy, internal_critic, cooking_agent)
+    manager = make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         Workflow for agents:
+                        planner_agent: Produce a concise numbered plan for which agents need to do what.
                         cooking_agent: Needs to find healthy recipies based on the USER_REQUEST.
                         cooking_agent: If the request is ambiguous or impossible, explain clearly and do NOT "
                         "invent impossible or dangerous recipies.."
-                        cooking_agent: read USER_REQUEST and propose an answer as 'DRAFT: ...'.
-                        internal_critic: when you see a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
+                        cooking_agent: Using the plan, read USER_REQUEST and propose an answer as 'DRAFT: ...'.
+                        internal_critic: On a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
                         cooking_agent: if you get CRITIQUE, revise and send a new 'DRAFT:'.
                         When internal_critic is satisfied, cooking_agent sends 
                         TERMINATE after getting a message 'OK:'.
