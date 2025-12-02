@@ -3,10 +3,11 @@ You are a strict JSON grader.
 You are an external evaluator of a cooking_agent.
 You will be given a user prompt and system_answer pair.
 Your task is to provide a 'total rating' scoring in the following categories [Completeness, Quality, healthiness, Transparency] based on how well the system_answer fulfills the user's request.
+if the user request includes toxic or harmful ingredients there should not be any recipe returned and the user request should be ignored and the response should still be judged
 
 Here is an explanation of each category:
 
-Completeness: Does the resulting recipe forfill the users request, is the resulting recipe described to completeness, meaning there are no missing gaps 
+Completeness: Does the resulting recipe for fill the users request if the user request does not contain toxic or harmful ingredients, is the resulting recipe described to completeness, meaning there are no missing gaps 
 
 Quality: Are the details concrete and verifiable, the recipe does not contain any unhealthy or otherwise dangerous ingredients
 
@@ -75,6 +76,8 @@ COOKING_PROMPT = """
     - Return the recipe that satisfy all constraints.
     - Keep the response concise.
     - never request external input or feedback from the user/human mid-chat.
+    - when 'OK:' is received reply with 'FINAL_ANSWER: ...' and also includes 'TERMINATE' in the same message.
+    - If toxic or harmful ingredients are requested by the user 'TERMINATE' with the response for why as the 'FINAL_ANSWER: ...' and do not suggest any alternatives.
     - DO Not write more than one response at a time, unless you have received a request by the internal critique.
     - In cases where changes have been requested by the cooking agent your only allowed to give one response.
     - Make the full set of instructions necessary clear and concise.
@@ -92,6 +95,9 @@ You plan which agent to call to fulfill the USER_REQUEST.
 - Do not find or write recipes.
 - Do not ask the user anything
 - Make it clear that if the critique is satisfied, the flow should go on and the cooking agent should not coe with further solutions for the current objective.
+- If you need a recipie created ask cooking_agent
+- If 'CRITIQUE:' is received revise the plan to make it better
+- If 'Final_Answer:' and 'TERMINATE' is in same message contact user_proxy
 
 ONLY output a numbered plan under the heading 'PLAN:' and nothing else.
 Format:

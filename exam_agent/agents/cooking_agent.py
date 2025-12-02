@@ -71,19 +71,14 @@ def run_with_internal_critic(user_request: str) -> Dict:
 
 
     init_message = f"""USER_REQUEST: '{user_request}'
-                        Workflow for agents:
-                        planner_agent: Produce a concise numbered plan for which agents need to do what.
-                        cooking_agent: Needs to find healthy recipies based on the USER_REQUEST.
-                        cooking_agent: If the request is ambiguous or impossible, explain clearly and do NOT "
-                        "invent impossible or dangerous recipies.."
-                        cooking_agent: Using the plan, read USER_REQUEST and propose an answer as 'DRAFT: ...'.
-                        internal_critic: On a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
-                        cooking_agent: if you get CRITIQUE, revise and send a new 'DRAFT:'.
-                        When internal_critic is satisfied, cooking_agent sends 
-                        'FINAL_ANSWER: ...' and also includes 'TERMINATE' in the same message.
                         
                         Return final answer as 'FINAL_ANSWER: [Answer]' include 'TERMINATE' in the same message, when done.
-                        The human will only see the FINAL_ANSWER."""
+                        The human will only see the FINAL_ANSWER.
+                        "Guidelines:\n"
+                        "- Make concrete, plausible recommendations.\n"
+                        "- If toxic or other harmful ingredients are requested by the user 'TERMINATE' with the response for why and do not suggest any alternatives.\n'"
+                        "- If the request is ambiguous or impossible, explain clearly and do NOT "
+                        "invent impossible products.\n"""
 
     final = user_proxy.initiate_chat(
         manager,
