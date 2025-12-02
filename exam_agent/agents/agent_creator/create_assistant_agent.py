@@ -6,17 +6,18 @@ _config = CONFIG["config_list"][1]
 
 
 
-def create_assistant_agent(name:str = "assistant_agent", prompt:str = _assistant_fallback) -> AssistantAgent:
+def create_assistant_agent(name:str = "assistant_agent", prompt:str = _assistant_fallback, config: dict[str, str | float | int | bool | None] | dict[str, str] | dict[str, str | float | bool | int | None | dict[str, int | float]] = _config) -> AssistantAgent:
     """
     Creates an assistant agent
     :param name: Name of the assistant
     :param prompt: agent prompt, fallback to JUDGE_PROMPT, Unreliable depending on agent use
+    :param config: agent configuration
     :return: AssistantAgent
     """
 
     agent = AssistantAgent(
         name=f"{name}",
-        llm_config=_config,
+        llm_config=config,
         system_message=prompt,
     )
 

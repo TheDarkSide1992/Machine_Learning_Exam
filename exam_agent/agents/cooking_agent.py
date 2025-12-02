@@ -1,14 +1,13 @@
 import json
-from statistics import mean
-from typing import Dict
 
-from autogen import UserProxyAgent, AssistantAgent, GroupChatManager, GroupChat, ConversableAgent
+from typing import Dict
+from autogen import GroupChatManager, GroupChat
 
 import exam_agent.agents.agent_creator as agent_creator
 from exam_agent.config import LLM_CONFIG as CONFIG
 from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
-_config = CONFIG["config_list"][1]
 
+_config = CONFIG["config_list"][1]
 
 def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
     group = GroupChat(
@@ -21,8 +20,8 @@ def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManag
 
 def run_with_internal_critic(user_request: str) -> Dict:
     user_proxy = agent_creator.create_user_proxy(name="user_proxy")
-    cooking_agent=agent_creator.create_convertible(name="cooking_agent", prompt=COOKING_PROMPT)
-    internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT)
+    cooking_agent=agent_creator.create_convertible(name="cooking_agent", prompt=COOKING_PROMPT, config=_config)
+    internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT, config=_config)
     manager = make_groupchat(user_proxy, internal_critic, cooking_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
@@ -69,7 +68,7 @@ def build_judge_prompt(user_prompt: str, final_answer: str) -> str:
 
 def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
     print("final answer:", final_answer)
-    judge_agent = agent_creator.create_assistant(name="judge_agent", prompt=JUDGE_PROMPT)
+    judge_agent = agent_creator.create_assistant(name="judge_agent", prompt=JUDGE_PROMPT, config=_config)
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
     #content = json.loads(str(raw['final_answer']))
