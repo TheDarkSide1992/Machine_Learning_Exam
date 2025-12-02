@@ -3,6 +3,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
+## Todo move these variables to the config file
 PG_USER = "postgres"
 PG_PASSWORD = "postgres"
 PG_HOST = "localhost"
