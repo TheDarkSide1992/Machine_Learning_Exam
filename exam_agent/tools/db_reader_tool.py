@@ -14,4 +14,4 @@ def search_database(name:str):
     return record
 
 if __name__ == "__main__":
-    search_database()
+    search_database("test")
