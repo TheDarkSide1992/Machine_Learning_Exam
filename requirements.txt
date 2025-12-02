@@ -1,3 +1,6 @@
+sqlalchemy==2.0.44
+pandas==2.3.3
+openpyxl==3.1.5
 psycopg2-binary==2.9.11
 requests==2.32.5
 autogen-agentchat @ git+https://github.com/patrickstolc/autogen.git@0.2#egg=autogen-agentchat
