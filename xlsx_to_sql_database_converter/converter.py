@@ -1,14 +1,13 @@
 ﻿import os
-
 import pandas as pd
 from sqlalchemy import create_engine
+from exam_agent.config import DATABASE as DBCONFIG
 
-## Todo move these variables to the config file
-PG_USER = "postgres"
-PG_PASSWORD = "postgres"
-PG_HOST = "localhost"
-PG_PORT = "5432"
-PG_DATABASE = "openfoodtox_db"
+PG_USER = DBCONFIG["user"]
+PG_PASSWORD = DBCONFIG["password"]
+PG_HOST = DBCONFIG["host"]
+PG_PORT = DBCONFIG["port"]
+PG_DATABASE = DBCONFIG["database"]
 
 data = "data/OpenFoodToxTX22784_2022.xlsx"
 current_directory = os.getcwd()
