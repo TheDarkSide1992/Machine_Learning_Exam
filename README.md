@@ -11,6 +11,8 @@ This project where made for purely educational purposes and should not be used f
 
 ## Setup
 Install the Python dependencies.
+download the data from https://zenodo.org/records/5076033/files/OpenFoodToxTX22784_2022.xlsx?download=1 and place it in the folder named data
+set up the database tables and data with the xlsx to sql database converter
 
 ## set up venv
 
@@ -20,6 +22,17 @@ python -m venv .venv
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Run postgres in docker
+```bash
+cd xlsx_to_sql_database_converter && docker-compose up -d && cd ..
+```
+
+## Run xlsx converter
+
+```bash
+python xlsx_to_sql_database_converter/converter.py
 ```
 
 ## Run
