@@ -41,6 +41,7 @@ python -m exam_agent
 > [!NOTE]
 > the config file should be placed in the evaluate_agent folder and named config.py
 > It is important that this file never is commited
+> You can use the postgres image for the local db
 ```python
 _MODEL_NAME = "open-mistral-nemo"
 _API_KEY = "YOUR_API_KEY"
@@ -64,3 +65,21 @@ LLM_CONFIG = {
         }
     ]
 }
+
+DATABASE = {
+    "database": "postgres",
+    "user": "postgres",
+    "password": "mysecretpassword",
+    "host": "localhost",
+    "port": 5432
+}
+
+```
+
+postgres docker image
+for more information visit dockerhub
+>https://hub.docker.com/_/postgres
+```bash
+ocker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+```
+
