@@ -26,13 +26,13 @@ pip install -r requirements.txt
 
 ## Run postgres in docker
 ```bash
-cd xlsx_to_sql_database_converter && docker-compose up -d && cd ..
+cd xlsx_to_sql_database_converter && docker compose up -d && cd ..
 ```
 
 ## Run xlsx converter
 
 ```bash
-python xlsx_to_sql_database_converter/converter.py
+python -m xlsx_to_sql_database_converter.converter
 ```
 
 ## Run
@@ -80,19 +80,11 @@ LLM_CONFIG = {
 }
 
 DATABASE = {
-    "database": "postgres",
+    "database": "openfoodtox_db",
     "user": "postgres",
-    "password": "mysecretpassword",
+    "password": "postgres",
     "host": "localhost",
     "port": 5432
 }
 
 ```
-
-postgres docker image
-for more information visit dockerhub
->https://hub.docker.com/_/postgres
-```bash
-ocker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
-```
-
