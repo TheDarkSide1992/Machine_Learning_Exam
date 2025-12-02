@@ -60,7 +60,7 @@ def make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent) ->
         max_round=30,
         speaker_selection_method="auto",
     )
-    return GroupChatManager(groupchat=group, llm_config=_config)
+    return GroupChatManager(groupchat=group)
 
 def run_with_internal_critic(user_request: str) -> Dict:
     planner_agent = create_planner_agent()
@@ -119,10 +119,10 @@ def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
     judge_agent = create_judge_agent()
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
-    #content = json.loads(str(raw['final_answer']))
-    print("Judge raw response:", raw)
+    content = json.loads(str(raw['content']))
+    print("Judge raw response:", content)
     try:
-        return json.loads(raw)
+        return content
     except json.JSONDecodeError:
         return {
             "final_answer": final_answer,

@@ -28,16 +28,21 @@ Transparency rating: (your rating, as a float between 0 and 5)
 Total rating: (your total rating, the other ratings averaged, as a float between 0 and 5)
 Always output exactly one JSON object, in plain JSON. Do not use markdown, Do not use code fences, Do not use prose.
 
-Return your final answer as a JSON object with the following structure while still following the previous instructions about what to return:{
-  "final_answer": string,
-  "rationale": string,
+Return your final answer as a JSON object with the following structure:
+'
+{
+  "final_answer": "string",
+  "rationale": "string",
   "completeness": float,
   "quality": float,
   "healthiness": float,
   "transparency": float,
   "total": float
 }
-
+'
+Your response should be json readable:
+DO not make up new fields.
+DO NOT return a dict
 """
 
 INTERNAL_CRITIQUE_PROMPT = (
@@ -57,6 +62,9 @@ INTERNAL_CRITIQUE_PROMPT = (
       CRITIQUE: <what is wrong + smallest fix needed>
     - Do NOT propose your own final answer; only judge and comment.
     - Do NOT ask the user for extra input
+    - DO Not write more than one response at a time
+    - Provide clear a necessary instructions.
+    - If the received recipe is satisfactory, do not ask the cooking agent again.
     """
 )
 
@@ -67,6 +75,9 @@ COOKING_PROMPT = """
     - Return the recipe that satisfy all constraints.
     - Keep the response concise.
     - never request external input or feedback from the user/human mid-chat.
+    - DO Not write more than one response at a time, unless you have received a request by the internal critique.
+    - In cases where changes have been requested by the cooking agent your only allowed to give one response.
+    - Make the full set of instructions necessary clear and concise.
 """
 
 
@@ -80,6 +91,7 @@ You plan which agent to call to fulfill the USER_REQUEST.
 - Do not critique, cook or judge
 - Do not find or write recipes.
 - Do not ask the user anything
+- Make it clear that if the critique is satisfied, the flow should go on and the cooking agent should not coe with further solutions for the current objective.
 
 ONLY output a numbered plan under the heading 'PLAN:' and nothing else.
 Format:
