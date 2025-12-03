@@ -6,7 +6,7 @@ Machine_learning_Exam
 * Emil
 
 ## Purpose
-This Project was originally a school compulsory project at EASV(erhvervsakademi sydvest | business academy southwest). 
+This Project is a school exam project at EASV(erhvervsakademi sydvest | business academy southwest). 
 This project where made for purely educational purposes and should not be used for any monetary gains.
 
 we are using the open food tox database from efsa (european food and safety agency)
