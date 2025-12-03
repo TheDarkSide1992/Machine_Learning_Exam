@@ -7,6 +7,7 @@ from autogen import GroupChatManager, GroupChat
 import exam_agent.agents.agent_creator as agent_creator
 from exam_agent.config import LLM_CONFIG as CONFIG
 from exam_agent.agents.agent_prompts import PLANNER_PROMPT, JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
+from exam_agent.tools import db_search
 
 _config = CONFIG["config_list"][0]
 
@@ -25,6 +26,9 @@ def run_with_internal_critic(user_request: str) -> Dict:
     internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT, config=_config)
     planner_agent = agent_creator.create_assistant(name="planner_agent", prompt=PLANNER_PROMPT, config=_config)
     manager = make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent)
+
+    cooking_agent.register_for_llm(name="search_tool", description="a tool that can take a ingredient and look it up in a openFoodTox database, to check if its toxic")(db_search)
+    user_proxy.register_for_execution(name="search_tool")(db_search)
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         Workflow for agents:

@@ -55,7 +55,7 @@ def search_database(search: str):
 
     records = cursor.fetchall()
 
-    data_out:list = [ToxicEntry]
+    data_out:list = []
     for record in records:
         data_out.append({"sub_name": record[0],
             "sub_description": record[1],
