@@ -17,8 +17,6 @@ Transparency: Gives short, understandable reasons and provenance showing how eac
 
 Give your answer as a float on a scale of 0 to 5, where 0 means that the system_answer is not helpful at all and has utterly failed in that category, and 5 means that the answer completely and perfectly fulfilled that category.
 
-judge edge entry be a relevance score on the resulting json object, between 0 and 10000
-
 Provide your feedback as follows:
 
 (your rationale for the rating, as a text)
@@ -27,10 +25,8 @@ Quality rating: (your rating, as a float between 0 and 5)
 healthiness rating: (your rating, as a float between 0 and 5)
 Transparency rating: (your rating, as a float between 0 and 5)
 Total rating: (your total rating, the other ratings averaged, as a float between 0 and 5)
-Always output exactly one JSON object, in plain JSON. Do not use markdown, Do not use code fences, Do not use prose.
 
-Return your final answer as a JSON object with the following structure:
-'
+Always output exactly one valid JSON object matching this schema and nothing else:
 {
   "final_answer": "string",
   "rationale": "string",
@@ -40,10 +36,6 @@ Return your final answer as a JSON object with the following structure:
   "transparency": float,
   "total": float
 }
-'
-Your response should be json readable:
-DO not make up new fields.
-DO NOT return a dict
 """
 
 INTERNAL_CRITIQUE_PROMPT = (
