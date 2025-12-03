@@ -63,7 +63,6 @@ python -m exam_agent
 > [!NOTE]
 > the config file should be placed in the evaluate_agent folder and named config.py
 > It is important that this file never is commited
-> You can use the postgres image for the local db
 ```python
 _MODEL_NAME = "open-mistral-nemo"
 _API_KEY = "YOUR_API_KEY"
