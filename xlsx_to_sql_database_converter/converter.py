@@ -9,7 +9,7 @@ PG_HOST = DBCONFIG["host"]
 PG_PORT = DBCONFIG["port"]
 PG_DATABASE = DBCONFIG["database"]
 
-data = "data/OpenFoodToxTX22784_2022.xlsx"
+data = "data/OpenFoodToxTX22809_2023.xlsx"
 current_directory = os.getcwd()
 
 

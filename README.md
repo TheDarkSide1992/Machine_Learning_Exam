@@ -6,13 +6,16 @@ Machine_learning_Exam
 * Emil
 
 ## Purpose
-This Project was orignally a school compulsery project at EASV(erhvervsakademi sydvest | business academy southwest). 
+This Project was originally a school compulsory project at EASV(erhvervsakademi sydvest | business academy southwest). 
 This project where made for purely educational purposes and should not be used for any monetary gains.
+
+we are using the open food tox database from efsa (european food and safety agency)
+
+> The following link will tell you more about the OpenFoodTox dataset
+>https://www.efsa.europa.eu/en/discover/infographics/openfoodtox-chemical-hazards-database
 
 ## Setup
 Install the Python dependencies.
-download the data from https://zenodo.org/records/5076033/files/OpenFoodToxTX22784_2022.xlsx?download=1 and place it in the folder named data
-set up the database tables and data with the xlsx to sql database converter
 
 ## set up venv
 
@@ -28,6 +31,12 @@ pip install -r requirements.txt
 ```bash
 cd xlsx_to_sql_database_converter && docker compose up -d && cd ..
 ```
+
+download the OpenFoodTox data set from folowing link 
+> https://zenodo.org/records/8120114/files/OpenFoodToxTX22809_2023.xlsx?download=1
+
+and place it in the folder named data
+set up the database tables and data with the xlsx to sql database converter
 
 ## Run xlsx converter
 
@@ -59,8 +68,6 @@ python -m exam_agent
 _MODEL_NAME = "open-mistral-nemo"
 _API_KEY = "YOUR_API_KEY"
 _API_TYPE = "mistral"  
-
-BASE_URL = "" #Insert url to netritous database
 
 LLM_CONFIG = {
     "config_list": [
