@@ -77,6 +77,8 @@ def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
     try:
+        if isinstance(raw, str):
+            return json.loads(raw)
         return raw.get("content")
     except json.JSONDecodeError:
         return {
