@@ -19,7 +19,11 @@ class ToxicEntry(TypedDict):
 
 
 def search_database(search: str):
-    global dict
+    """
+    Searches database for items matching the search string.
+    :param search: search entity
+    :return: returns a lists of {ToxicEntry} object
+    """
 
     _rows = """
                 sub_name,
@@ -34,7 +38,7 @@ def search_database(search: str):
                 riskunit,
                 remarks,
                 assess
-                """
+            """
 
     connection = psycopg2.connect(database=DBCONFIG["database"], user=DBCONFIG["user"], password=DBCONFIG["password"],
                                   host=DBCONFIG["host"], port=DBCONFIG["port"])
@@ -50,25 +54,6 @@ def search_database(search: str):
     cursor.execute(query=query)
 
     records = cursor.fetchall()
-
-    """"
-    data_out = list([
-        (map(lambda x: {
-            "sub_name": x[0],
-            "sub_description": x[1],
-            "molecularformula": x[2],
-            "com_type": x[3],
-            "sub_op_class": x[4],
-            "is_mutagenic": x[5],
-            "is_genotoxic": x[6],
-            "is_carcinogenic": x[7],
-            "remarks_study": x[8],
-            "riskunit": x[9],
-            "remarks": x[10],
-            "assess": x[11],
-        }, record)) for record in records
-    ])"""
-
 
     data_out:list = [ToxicEntry]
     for record in records:
@@ -90,5 +75,6 @@ def search_database(search: str):
 
 
 if __name__ == "__main__":
+    #This is for testing without external call, and can be ignored for actual use
     result = search_database("Vanadium")
     print(result)
