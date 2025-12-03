@@ -1,40 +1,13 @@
 import json
-from statistics import mean
+
 from typing import Dict
+from autogen import GroupChatManager, GroupChat
 
-from autogen import UserProxyAgent, AssistantAgent, GroupChatManager, GroupChat, ConversableAgent
-
+import exam_agent.agents.agent_creator as agent_creator
 from exam_agent.config import LLM_CONFIG as CONFIG
-from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT, PLANNER_PROMPT
-_config = CONFIG["config_list"][0]
+from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
 
-def create_cooking_agent(name:str = "cooking_agent", prompt:str = COOKING_PROMPT) -> ConversableAgent:
-    agent =  ConversableAgent(
-        name=f"{name}",
-        llm_config=_config,
-        system_message=prompt,
-
-    )
-
-    return agent
-
-def create_internal_critic_agent(name:str = "internal_critic", prompt:str = INTERNAL_CRITIQUE_PROMPT) -> AssistantAgent:
-    agent =  AssistantAgent(
-        name=f"{name}",
-        llm_config=_config,
-        system_message=prompt,
-    )
-
-    return agent
-
-def create_judge_agent(name:str = "judge_agent", prompt:str = JUDGE_PROMPT) -> AssistantAgent:
-    agent = AssistantAgent(
-        name=f"{name}",
-        llm_config=_config,
-        system_message=prompt,
-    )
-
-    return agent
+_config = CONFIG["config_list"][1]
 
 def create_planner_agent(name:str = "planner_agent", prompt:str = PLANNER_PROMPT) -> AssistantAgent:
     planner = AssistantAgent(
@@ -44,31 +17,20 @@ def create_planner_agent(name:str = "planner_agent", prompt:str = PLANNER_PROMPT
     )
     return planner
 
-def create_user_proxy(name:str = "user_proxy") -> UserProxyAgent:
-    agent = UserProxyAgent(
-        name=f"{name}",
-        human_input_mode="NEVER",
-        is_termination_msg=lambda m: (m.get("content") or "").rstrip().endswith("TERMINATE"),
-    )
-
-    return agent
-
-def make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
+def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
     group = GroupChat(
         agents=[planner_agent, cooking_agent, internal_critic, user_proxy],
         messages=[],
-        max_round=30,
+        max_round=20,
         speaker_selection_method="auto",
     )
-    return GroupChatManager(groupchat=group)
+    return GroupChatManager(groupchat=group, llm_config=None)
 
 def run_with_internal_critic(user_request: str) -> Dict:
-    planner_agent = create_planner_agent()
-    user_proxy = create_user_proxy()
-    cooking_agent = create_cooking_agent()
-    internal_critic = create_internal_critic_agent()
-    manager = make_groupchat(planner_agent, user_proxy, internal_critic, cooking_agent)
-
+    user_proxy = agent_creator.create_user_proxy(name="user_proxy")
+    cooking_agent=agent_creator.create_convertible(name="cooking_agent", prompt=COOKING_PROMPT, config=_config)
+    internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT, config=_config)
+    manager = make_groupchat(user_proxy, internal_critic, cooking_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         
@@ -111,13 +73,13 @@ def build_judge_prompt(user_prompt: str, final_answer: str) -> str:
 
 def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
     print("final answer:", final_answer)
-    judge_agent = create_judge_agent()
+    judge_agent = agent_creator.create_assistant(name="judge_agent", prompt=JUDGE_PROMPT, config=_config)
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
-    content = json.loads(str(raw['content']))
-    print("Judge raw response:", content)
+    #content = json.loads(str(raw['final_answer']))
+    print("Judge raw response:", raw)
     try:
-        return content
+        return json.loads(raw)
     except json.JSONDecodeError:
         return {
             "final_answer": final_answer,
