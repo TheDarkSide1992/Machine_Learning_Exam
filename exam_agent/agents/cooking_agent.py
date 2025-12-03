@@ -5,19 +5,11 @@ from autogen import GroupChatManager, GroupChat
 
 import exam_agent.agents.agent_creator as agent_creator
 from exam_agent.config import LLM_CONFIG as CONFIG
-from exam_agent.agents.agent_prompts import JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
+from exam_agent.agents.agent_prompts import PLANNER_PROMPT, JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
 
-_config = CONFIG["config_list"][1]
+_config = CONFIG["config_list"][0]
 
-def create_planner_agent(name:str = "planner_agent", prompt:str = PLANNER_PROMPT) -> AssistantAgent:
-    planner = AssistantAgent(
-        name=f"{name}",
-        llm_config=_config,
-        system_message=prompt,
-    )
-    return planner
-
-def make_groupchat(user_proxy, internal_critic, cooking_agent) -> GroupChatManager:
+def make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent) -> GroupChatManager:
     group = GroupChat(
         agents=[planner_agent, cooking_agent, internal_critic, user_proxy],
         messages=[],
@@ -30,7 +22,8 @@ def run_with_internal_critic(user_request: str) -> Dict:
     user_proxy = agent_creator.create_user_proxy(name="user_proxy")
     cooking_agent=agent_creator.create_convertible(name="cooking_agent", prompt=COOKING_PROMPT, config=_config)
     internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT, config=_config)
-    manager = make_groupchat(user_proxy, internal_critic, cooking_agent)
+    planner_agent = agent_creator.create_assistant(name="planner_agent", prompt=PLANNER_PROMPT, config=_config)
+    manager = make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         
