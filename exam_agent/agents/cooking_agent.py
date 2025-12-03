@@ -1,7 +1,7 @@
 import json
 
-from pprint import pformat, pprint
-from typing import Dict, Any
+from pprint import pprint
+from typing import Dict
 from autogen import GroupChatManager, GroupChat
 
 import exam_agent.agents.agent_creator as agent_creator
@@ -27,7 +27,6 @@ def run_with_internal_critic(user_request: str) -> Dict:
     manager = make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent)
 
     init_message = f"""USER_REQUEST: '{user_request}'
-
                         Workflow for agents:
                         planner_agent: Break down the USER_REQUEST into subtasks for other agents.
                         cooking_agent: Needs to find healthy recipies based on the USER_REQUEST.
@@ -70,12 +69,9 @@ def build_judge_prompt(user_prompt: str, final_answer: str) -> str:
     )
 
 def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
-    #print("final answer:", final_answer)
     judge_agent = agent_creator.create_assistant(name="judge_agent", prompt=JUDGE_PROMPT, config=_config)
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
-    #content = json.loads(str(raw['content']))
-    # print("Judge raw response:", raw)
     try:
         return raw.get("content")
     except json.JSONDecodeError:
