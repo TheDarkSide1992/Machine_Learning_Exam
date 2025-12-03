@@ -22,7 +22,7 @@ def main(prompt:str=None, continuous_chat:bool=False, generate_recipe:bool=False
         prompt = get_user_input()
         print("Type the recipe you would like to start")
 
-        #start(prompt=prompt)
+        start(prompt=prompt)
 
 
 def get_user_input() -> str:
