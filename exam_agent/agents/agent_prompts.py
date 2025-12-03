@@ -66,6 +66,8 @@ INTERNAL_CRITIQUE_PROMPT = (
     - DO Not write more than one response at a time
     - Provide clear a necessary instructions.
     - If the received recipe is satisfactory, do not ask the cooking agent again.
+    
+    If the recipe is satisfactory, respond 'OK: <short-justification>' include 'TERMINATE' in the same message.
     """
 )
 
@@ -76,7 +78,6 @@ COOKING_PROMPT = """
     - Return the recipe that satisfy all constraints.
     - Keep the response concise.
     - never request external input or feedback from the user/human mid-chat.
-    - when 'OK:' is received reply with 'FINAL_ANSWER: ...' and also includes 'TERMINATE' in the same message.
     - If toxic or harmful ingredients are requested by the user 'TERMINATE' with the response for why as the 'FINAL_ANSWER: ...' and do not suggest any alternatives.
     - DO Not write more than one response at a time, unless you have received a request by the internal critique.
     - In cases where changes have been requested by the cooking agent your only allowed to give one response.
@@ -94,8 +95,8 @@ You plan which agent to call to fulfill the USER_REQUEST.
 - Do not critique, cook or judge
 - Do not find or write recipes.
 - Do not ask the user anything
-- Make it clear that if the critique is satisfied, the flow should go on and the cooking agent should not coe with further solutions for the current objective.
-- If you need a recipie created ask cooking_agent
+- Make it clear that if the critique is satisfied, the flow should go on and the cooking_agent should not come with further solutions for the current objective.
+- If you need a recipe created ask cooking_agent
 - If 'CRITIQUE:' is received revise the plan to make it better
 - If 'Final_Answer:' and 'TERMINATE' is in same message contact user_proxy
 

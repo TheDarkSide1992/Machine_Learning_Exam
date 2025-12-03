@@ -27,13 +27,17 @@ def run_with_internal_critic(user_request: str) -> Dict:
 
     init_message = f"""USER_REQUEST: '{user_request}'
                         
-                        Return final answer as 'FINAL_ANSWER: [Answer]' include 'TERMINATE' in the same message, when done.
-                        The human will only see the FINAL_ANSWER.
-                        "Guidelines:\n"
-                        "- Make concrete, plausible recommendations.\n"
-                        "- If toxic or other harmful ingredients are requested by the user 'TERMINATE' with the response for why and do not suggest any alternatives.\n'"
-                        "- If the request is ambiguous or impossible, explain clearly and do NOT "
-                        "invent impossible products.\n"""
+                        Workflow for agents:
+                        planner_agent: Break down the USER_REQUEST into subtasks for other agents.
+                        cooking_agent: Needs to find healthy recipies based on the USER_REQUEST.
+                        cooking_agent: If the request is ambiguous or impossible, explain clearly and do NOT "
+                        "invent impossible or dangerous recipies.."
+                        cooking_agent: read USER_REQUEST and propose an answer as 'DRAFT: ...'.
+                        internal_critic: when you see a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
+                        cooking_agent: if you get CRITIQUE, revise and send a new 'DRAFT:'.
+                        When internal_critic responds with 'OK:' it should include 'TERMINATE' in the same message.
+                        When internal_critic responds with 'OK:' and 'TERMINATE' internal_critic should immediately after return final answer as 'FINAL_ANSWER: [Answer]' include 'TERMINATE' in the same message, when done.
+                        The human will only see the FINAL_ANSWER."""
 
     final = user_proxy.initiate_chat(
         manager,
