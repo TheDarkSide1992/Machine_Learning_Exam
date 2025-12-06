@@ -38,18 +38,6 @@ Return your final answer as a JSON object with the following structure while sti
   "total": float
 }
 
-a response could be
-{
-  "final_answer": "The agent provided a complete, well-structured, and healthy salad recipe. It also included an excellent transparency check regarding ingredient toxicity, explaining the process and results clearly.",
-  "rationale": "The agent successfully generated a recipe for a 'salad' as requested by the user. The recipe for 'Quinoa Salad with Roasted Vegetables' is comprehensive, detailing ingredients with specific quantities and clear, step-by-step instructions. The ingredients are all healthy and common. A significant positive aspect is the explicit 'Ingredient Toxicity Check', which demonstrates excellent transparency by referencing the `openFoodTox` database and explaining why the ingredients are considered safe. This fulfills all aspects of the grading criteria effectively.",
-  "completeness": 5.0,
-  "quality": 5.0,
-  "healthiness": 5.0,
-  "transparency": 5.0,
-  "total": 5.0
-}
-
-
 """
 
 INTERNAL_CRITIQUE_SYSTEM_MESSAGE = (

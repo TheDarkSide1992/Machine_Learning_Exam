@@ -14,8 +14,8 @@ def main(prompt:str=None, continuous_chat:bool=False,):
         start(prompt)
 
     while continuous_chat:
-        prompt = get_user_input()
         print("Type the recipe you would like to start")
+        prompt = get_user_input()
 
         start(prompt=prompt)
 
