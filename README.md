@@ -76,6 +76,9 @@ LLM_CONFIG = {
     ]
 }
 
+MAX_CALLS = 20
+PERIOD_SECONDS = 60.0
+
 DATABASE = {
     "database": "openfoodtox_db",
     "user": "postgres",
@@ -91,3 +94,5 @@ DATABASE = {
 ```bash
 python -m exam_agent -C
 ```
+
+Alternatively you can experiment with other ai version like Mistal, Be aware some ai configs might be different and require minor adjustments.

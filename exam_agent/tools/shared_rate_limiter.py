@@ -1,10 +1,7 @@
 ﻿import time
 import threading
 from collections import deque
-
-MAX_CALLS = 20
-PERIOD_SECONDS = 60.0
-
+from exam_agent.config import MAX_CALLS, PERIOD_SECONDS
 
 class Shared_rate_limiter:
     """A shared thread safe rate limiter"""
