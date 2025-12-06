@@ -9,7 +9,7 @@ Machine_learning_Exam
 This Project is a school exam project at EASV(erhvervsakademi sydvest | business academy southwest). 
 This project where made for purely educational purposes and should not be used for any monetary gains.
 
-we are using the open food tox database from efsa (european food and safety agency)
+We are using the open food tox database from efsa (european food and safety agency)
 
 > The following link will tell you more about the OpenFoodTox dataset
 >https://www.efsa.europa.eu/en/discover/infographics/openfoodtox-chemical-hazards-database
@@ -44,12 +44,6 @@ set up the database tables and data with the xlsx to sql database converter
 python -m xlsx_to_sql_database_converter.converter
 ```
 
-## Run
-
-```bash
-python -m exam_agent
-```
-
 ## Requirements
 
 - Python 3.10+
@@ -62,7 +56,10 @@ python -m exam_agent
 ## Create config
 > [!NOTE]
 > the config file should be placed in the evaluate_agent folder and named config.py
-> It is important that this file never is commited
+> It is important that this file never is commited.
+> It is necessary for running the application.
+> For ai We recommend using mistral ai.
+> Replace <YOUR_API_KEY> with your actual api key.
 ```python
 _MODEL_NAME = "open-mistral-nemo"
 _API_KEY = "YOUR_API_KEY"
@@ -93,4 +90,10 @@ DATABASE = {
     "port": 5001
 }
 
+```
+
+## Run
+
+```bash
+python -m exam_agent -C
 ```

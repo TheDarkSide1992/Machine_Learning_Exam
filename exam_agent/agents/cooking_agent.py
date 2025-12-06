@@ -6,7 +6,7 @@ from autogen import GroupChatManager, GroupChat
 
 import exam_agent.agents.agent_creator as agent_creator
 from exam_agent.config import LLM_CONFIG as CONFIG
-from exam_agent.agents.agent_prompts import PLANNER_PROMPT, JUDGE_PROMPT, INTERNAL_CRITIQUE_PROMPT, COOKING_PROMPT
+from exam_agent.agents.agent_system_prompts import PLANNER_SYSTEM_MESSAGE, JUDGE_SYSTEM_MESSAGE, INTERNAL_CRITIQUE_SYSTEM_MESSAGE, COOKING_SYSTEM_MESSAGE
 from exam_agent.tools import db_search
 
 _config = CONFIG["config_list"][0]
@@ -22,9 +22,9 @@ def make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent) ->
 
 def run_with_internal_critic(user_request: str) -> Dict:
     user_proxy = agent_creator.create_user_proxy(name="user_proxy")
-    cooking_agent=agent_creator.create_convertible(name="cooking_agent", prompt=COOKING_PROMPT, config=_config)
-    internal_critic = agent_creator.create_assistant(name="internal_critic", prompt=INTERNAL_CRITIQUE_PROMPT, config=_config)
-    planner_agent = agent_creator.create_assistant(name="planner_agent", prompt=PLANNER_PROMPT, config=_config)
+    cooking_agent=agent_creator.create_convertible(name="cooking_agent", message=COOKING_SYSTEM_MESSAGE, config=_config)
+    internal_critic = agent_creator.create_assistant(name="internal_critic", message=INTERNAL_CRITIQUE_SYSTEM_MESSAGE, config=_config)
+    planner_agent = agent_creator.create_assistant(name="planner_agent", message=PLANNER_SYSTEM_MESSAGE, config=_config)
     manager = make_groupchat(user_proxy, internal_critic, cooking_agent, planner_agent)
 
     cooking_agent.register_for_llm(name="search_tool", description="a tool that can take a ingredient and look it up in a openFoodTox database, to check if its toxic")(db_search)
@@ -73,7 +73,7 @@ def build_judge_prompt(user_prompt: str, final_answer: str) -> str:
     )
 
 def llm_judge_score(user_prompt: str, final_answer: str) -> Dict:
-    judge_agent = agent_creator.create_assistant(name="judge_agent", prompt=JUDGE_PROMPT, config=_config)
+    judge_agent = agent_creator.create_assistant(name="judge_agent", message=JUDGE_SYSTEM_MESSAGE, config=_config)
     judge_prompt = build_judge_prompt(user_prompt, final_answer)
     raw = judge_agent.generate_reply(messages=[{"role": "user", "content": judge_prompt}])
     try:
