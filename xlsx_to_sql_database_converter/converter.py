@@ -19,8 +19,8 @@ csv_files =[
     "CHEM_ASSESS",
     "COM_SYNONYM",
     "QUESTION",
-    "GENOTOX_KJ",
-    "ENDPOINTSTUDY_KJ",
+    "GENOTOX",
+    "ENDPOINTSTUDY",
     "COMPONENT",
     "STUDY",
     "OPINION"

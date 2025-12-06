@@ -74,6 +74,28 @@ COOKING_PROMPT = """
     - DO Not write more than one response at a time, unless you have received a request by the internal critique.
     - In cases where changes have been requested by the cooking agent your only allowed to give one response.
     - Make the full set of instructions necessary clear and concise.
+    
+    You have been given the ability to use a search_tool that can take a ingredient and look it up in a openFoodTox database.
+    THe Tool returns an list of ToxicEntry(TypedDict), given data of the ingredient. its constructed as followed:
+    '
+    class ToxicEntry(TypedDict):
+        sub_name: str
+        sub_description: str
+        molecularformula: str
+        com_type: str
+        sub_op_class: Optional[str]
+        is_mutagenic: Optional[str]
+        is_genotoxic: Optional[str]
+        is_carcinogenic: Optional[str]
+        remarks_study: str
+        riskunit: str
+        remarks: str
+        assess: str
+    ' 
+    Just because the search_tool does not return data, does not mean the ingredient might not be toxic.
+    You can use this tool to look unconventional, dangerous, weird, or otherwise out of place ingredients to determine their danger.
+    always use the tool, for items you consider using..
+
 """
 
 
