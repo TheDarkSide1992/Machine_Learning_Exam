@@ -56,7 +56,10 @@ python -m xlsx_to_sql_database_converter.converter
 ## Create config
 > [!NOTE]
 > the config file should be placed in the evaluate_agent folder and named config.py
-> It is important that this file never is commited
+> It is important that this file never is commited.
+> It is necessary for running the application.
+> For ai We recommend using mistral ai.
+> Replace <YOUR_API_KEY> with your actual api key.
 ```python
 _MODEL_NAME = "open-mistral-nemo"
 _API_KEY = "YOUR_API_KEY"
