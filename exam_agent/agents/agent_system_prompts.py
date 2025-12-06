@@ -1,4 +1,4 @@
-JUDGE_PROMPT = """
+JUDGE_SYSTEM_MESSAGE = """
 You are a strict JSON grader.
 You are an external evaluator of a cooking_agent.
 You will be given a user prompt and system_answer pair.
@@ -38,7 +38,7 @@ Always output exactly one valid JSON object matching this schema and nothing els
 }
 """
 
-INTERNAL_CRITIQUE_PROMPT = (
+INTERNAL_CRITIQUE_SYSTEM_MESSAGE = (
     """You are an internal critic reviewing the cooking_agent's drafts.
     You only ever see the USER_REQUEST and the cooking_agent's messages.
 
@@ -63,7 +63,7 @@ INTERNAL_CRITIQUE_PROMPT = (
     """
 )
 
-COOKING_PROMPT = """
+COOKING_SYSTEM_MESSAGE = """
     You are an expert cook and nutritionist.
     Task: Find a recipe on [topic] specified by the user.
     Instructions:
@@ -94,12 +94,12 @@ COOKING_PROMPT = """
     ' 
     Just because the search_tool does not return data, does not mean the ingredient might not be toxic.
     You can use this tool to look unconventional, dangerous, weird, or otherwise out of place ingredients to determine their danger.
-    always use the tool, for items you consider using..
+    always use the tool, for items you consider using.
 
 """
 
 
-PLANNER_PROMPT = """
+PLANNER_SYSTEM_MESSAGE = """
 You are the planner.
 You plan which agent to call to fulfill the USER_REQUEST.
 
