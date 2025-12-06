@@ -26,7 +26,8 @@ healthiness rating: (your rating, as a float between 0 and 5)
 Transparency rating: (your rating, as a float between 0 and 5)
 Total rating: (your total rating, the other ratings averaged, as a float between 0 and 5)
 
-Always output exactly one valid JSON object matching this schema and nothing else:
+Always output exactly one JSON object, in plain JSON. Do not use markdown, Do not use code fences, Do not use prose.
+Return your final answer as a JSON object with the following structure while still following the previous instructions about what to return:{
 {
   "final_answer": "string",
   "rationale": "string",
@@ -36,6 +37,19 @@ Always output exactly one valid JSON object matching this schema and nothing els
   "transparency": float,
   "total": float
 }
+
+a response could be
+{
+  "final_answer": "The agent provided a complete, well-structured, and healthy salad recipe. It also included an excellent transparency check regarding ingredient toxicity, explaining the process and results clearly.",
+  "rationale": "The agent successfully generated a recipe for a 'salad' as requested by the user. The recipe for 'Quinoa Salad with Roasted Vegetables' is comprehensive, detailing ingredients with specific quantities and clear, step-by-step instructions. The ingredients are all healthy and common. A significant positive aspect is the explicit 'Ingredient Toxicity Check', which demonstrates excellent transparency by referencing the `openFoodTox` database and explaining why the ingredients are considered safe. This fulfills all aspects of the grading criteria effectively.",
+  "completeness": 5.0,
+  "quality": 5.0,
+  "healthiness": 5.0,
+  "transparency": 5.0,
+  "total": 5.0
+}
+
+
 """
 
 INTERNAL_CRITIQUE_SYSTEM_MESSAGE = (
