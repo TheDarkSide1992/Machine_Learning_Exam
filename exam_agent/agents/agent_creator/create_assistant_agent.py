@@ -10,7 +10,7 @@ def create_assistant_agent(name:str = "assistant_agent", message:str = _assistan
     """
     Creates an assistant agent
     :param name: Name of the assistant
-    :param message: agent prompt, fallback to JUDGE_PROMPT, Unreliable depending on agent use
+    :param message: agent system message, fallback to JUDGE_SYSTEM_MESSAGE, Unreliable depending on agent use
     :param config: agent configuration
     :return: AssistantAgent
     """

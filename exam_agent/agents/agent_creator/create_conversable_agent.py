@@ -10,7 +10,7 @@ def create_convertible_agent(name:str = "create_convertible_agent", message:str 
     """
         Creates an conversible agent
         :param name: Name of the assistant
-        :param message: agent prompt, fallback to COOKING_PROMPT, Unreliable depending on agent use
+        :param message: agent message, fallback to COOKING_SYSTEM_MESSAGE, Unreliable depending on agent use
         :param config: agent configuration
         :return: ConversableAgent
         """
