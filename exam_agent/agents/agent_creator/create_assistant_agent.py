@@ -2,7 +2,7 @@ from autogen import AssistantAgent
 
 from exam_agent.config import LLM_CONFIG as CONFIG
 from exam_agent.agents.agent_system_prompts import  JUDGE_SYSTEM_MESSAGE as _assistant_fallback
-_config = CONFIG["config_list"][1]
+_config = CONFIG["config_list"][0]
 
 
 
