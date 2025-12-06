@@ -48,7 +48,7 @@ python -m xlsx_to_sql_database_converter.converter
 
 - Python 3.10+
 - autogen-agentchat
-- mistral
+- gemini
 - autogen
 - ollama
 - fix-busted-json
@@ -58,26 +58,20 @@ python -m xlsx_to_sql_database_converter.converter
 > the config file should be placed in the evaluate_agent folder and named config.py
 > It is important that this file never is commited.
 > It is necessary for running the application.
-> For ai We recommend using mistral ai.
+> For ai We recommend using gemini ai.
+> You can get access to a free version at https://aistudio.google.com/api-keys
 > Replace <YOUR_API_KEY> with your actual api key.
 ```python
-_MODEL_NAME = "open-mistral-nemo"
+_MODEL_NAME = "gemini-2.5-flash"
 _API_KEY = "YOUR_API_KEY"
-_API_TYPE = "mistral"  
 
 LLM_CONFIG = {
     "config_list": [
         {
+            
             "model": f"{_MODEL_NAME}",
             "api_key": f"{_API_KEY}",
-            "api_type": f"{_API_TYPE}",
-            "api_rate_limit": 0.25,
-            "repeat_penalty": 1.1,
-            "temperature": 0.0,
-            "seed": 42,
-            "stream": False,
-            "native_tool_calls": False,
-            "cache_seed": None,
+            "base_url": "https://generativelanguage.googleapis.com/v1beta",
         }
     ]
 }
