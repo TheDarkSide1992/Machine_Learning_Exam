@@ -1,5 +1,6 @@
 from autogen import AssistantAgent
 
+from exam_agent.agents.agent_creator.rate_limiting_assistant_agent import Rate_limiter_assistant_agent
 from exam_agent.config import LLM_CONFIG as CONFIG
 from exam_agent.agents.agent_system_prompts import  JUDGE_SYSTEM_MESSAGE as _assistant_fallback
 _config = CONFIG["config_list"][0]
@@ -15,7 +16,7 @@ def create_assistant_agent(name:str = "assistant_agent", message:str = _assistan
     :return: AssistantAgent
     """
 
-    agent = AssistantAgent(
+    agent = Rate_limiter_assistant_agent(
         name=f"{name}",
         llm_config=config,
         system_message=message,

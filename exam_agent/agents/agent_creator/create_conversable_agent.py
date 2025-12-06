@@ -1,5 +1,6 @@
 from autogen import ConversableAgent
 
+from exam_agent.agents.agent_creator.rate_limiting_conversable_agent import Rate_limiter_conversable_agent
 from exam_agent.config import LLM_CONFIG as CONFIG
 from exam_agent.agents.agent_system_prompts import  COOKING_SYSTEM_MESSAGE as _convirsible_fallback
 _config = CONFIG["config_list"][0]
@@ -14,7 +15,7 @@ def create_convertible_agent(name:str = "create_convertible_agent", message:str 
         :param config: agent configuration
         :return: ConversableAgent
         """
-    agent =  ConversableAgent(
+    agent =  Rate_limiter_conversable_agent(
         name=f"{name}",
         llm_config=config,
         system_message=message,

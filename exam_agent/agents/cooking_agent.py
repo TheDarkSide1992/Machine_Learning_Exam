@@ -37,6 +37,7 @@ def run_with_internal_critic(user_request: str) -> Dict:
                         cooking_agent: If the request is ambiguous or impossible, explain clearly and do NOT "
                         "invent impossible or dangerous recipies.."
                         cooking_agent: read USER_REQUEST and propose an answer as 'DRAFT: ...'.
+                        cooking_agent: always check ingredients with the search tool.
                         internal_critic: when you see a DRAFT, respond with 'OK:' or 'CRITIQUE:'.
                         cooking_agent: if you get CRITIQUE, revise and send a new 'DRAFT:'.
                         When internal_critic responds with 'OK:' it should include 'TERMINATE' in the same message.
